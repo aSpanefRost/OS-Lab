@@ -1,0 +1,63 @@
+Difference between Producers Consumers set of processes and set of threads problems
+
+Difference in Algorithms:
+    Set of processes:
+    *   Each producer process generates a computing process and inserts the job in a shared memory queue. While insertion it checks if the queue is full or not. If it is full it waits until the space becomes available.
+    *   On the other hand, the consumer process retrieves the jobs with the highest priority in the shared memory queue.
+    *   While loop implementation of waiting is used instead of sleep to avoid ambiguities in time due to pausing of the clock.
+    Set of threads:
+    *   Threads for producers and consumers were created and joined. While creating threads, the threads were attached to the respective functions producer and consumer.
+    *   The algorithm for inserting a job into the buffer is simply adding at the position ‘in’.
+    *   For removing the job from the buffer, the highest-priority job is selected by iterating through the buffer and the array is shifted accordingly after removal.
+    *   The consumer is made to wait for ‘compute_time’ seconds for a job for simulation.
+    *   While loop implementation of waiting is used instead of sleep to avoid ambiguities in time due to pausing of the clock.
+
+Difference in Data Structures:
+    Set of processes:
+    *   An array of struct type Job was used to store the Job queue
+    *   Mutex_locks were used to prevent concurrent updates to shared variables leading to possible race conditions.
+    *   A struct type Job was created to store the details like process id, producer number, priority, compute time, job id of a Job
+    Set of threads:
+    *   Semaphores were used to keep the count of empty buffer cells and filled buffer cells for thread synchronization.
+    *   Mutex is used to provide mutual exclusion vehicle performing insertion of job in producer function, removal of job in consumer function or whenever job_completed or job_created is accessed.
+    *   The number of producers, number of consumers, the maximum size of the queue, total number of jobs, number of jobs created, and number of jobs completed were stored in global variables.
+    *   The structure to represent a job was created with members producer_number, priority, compute_time, and job_id.
+
+Difference in Functions:
+    Set of processes:
+    *   createjob->create a job with random integers for id, priority, and compute time
+    *   printqueue->printing the jobs in the queue
+    *   insert-> Inserts a job into the queue
+    *   remove->Removes the highest priority job from the queue
+    *   createPriorityQueue-> For creating the queue and initializing it
+    *   Apart from the above mentioned functions,
+        *   fork
+        *   getpid
+        *   pthread_mutex_lock
+        *   pthread_mutex_unlock
+        *   rand
+        *   clock
+    Set of threads:
+    *   producer function inserts job into the buffer.
+    *   consumer function removes the highest-priority job from the buffer.
+    *   jobInit function initializes a job with random values
+    *   pthread.h functions used:
+        *   pthread_mutex_lock
+        *   pthread_mutex_unlock
+        *   pthread_mutex_init
+        *   pthread_mutex_destroy
+        *   pthread_create
+        *   pthread_join
+    *   semaphore.h functions used:
+        *   sem_init
+        *   sem_destroy
+        *   sem_post
+    *   For output formatting, printElement and iomanip.h functions used:
+        *   setw
+        *   setfill
+    *   std::chrono::high_resolution_clock::now() used from chrono library
+    *   For random number generation, Stdlib.h functions used:
+        *   rand
+        *   srand
+
+
